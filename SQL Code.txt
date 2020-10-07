@@ -1,0 +1,300 @@
+CREATE TABLE inventory (
+    product_id INT PRIMARY KEY,
+    product VARCHAR(40),
+    cost INT,
+    remaining_amount INT
+);
+
+CREATE TABLE customers_information (
+    user_id INT PRIMARY KEY,
+    email VARCHAR(40),
+    first_name VARCHAR(40),
+    last_name VARCHAR(40), 
+    bank_number INT,
+    shipping_address VARCHAR(60)
+);
+
+CREATE TABLE products_sold (
+    transaction_number INT PRIMARY KEY,
+    product_id INT,
+    user_id_purchased INT,
+    sold_price INT,
+    date_sold DATE,
+    FOREIGN KEY (`user_id_purchased`) REFERENCES `customers_information` (`user_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`product_id`) REFERENCES `inventory` (`product_id`) ON DELETE CASCADE
+);
+
+CREATE TABLE items_shipped (
+    tracking_number VARCHAR(10) PRIMARY KEY,
+    customer_id INT,
+    type_of_shipping VARCHAR(13),
+    FOREIGN KEY (`customer_id`) REFERENCES `customers_information` (`user_id`) ON DELETE CASCADE
+);
+
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    first_name VARCHAR(40),
+    last_name VARCHAR(40),
+    sex VARCHAR(1),
+    salary INT
+);
+
+# List of inventory products
+INSERT INTO inventory (product_id, product, cost, remaining_amount)
+VALUES
+    (01, 'Pawn', 15, 128),
+    (02, 'Rook', 20, 98),
+    (03, 'Knight', 20, 67),
+    (04, 'Bishop', 20, 112),
+    (05, 'Queen', 25, 103),
+    (06, 'King', 25 ,74),
+    (07, 'Chess Board', 40, 49),
+    (08, 'Case', 40, 85),
+    (09, 'Chess Package', 325, 212);
+
+# List of customers
+INSERT INTO customers_information (user_id, email, first_name, last_name, bank_number, shipping_address)
+VALUES
+    (1201, 'h.churchill@email.com', 'Hafsah', 'Churchill', 866841, '496 Rue De La Gare, Trois Rivieres, Quebec'),
+    (1202, 'a.metzler@email.com', 'Amber', 'Metzler', 295071, '532 Sixth Street, New Westminster, British Columbia'),
+    (1203, 'd.gorman@email.com', 'Doris', 'Gorman', 205100, '1230 Bastin Drive, Philadelphia, Pennsylvania'),
+    (1204, 'v.carrillo@email.com', 'Vera', 'Carrillo', 120659, '1661 Rue Principale, Rouyn, Quebec'),
+    (1205, 'g.robinson@email.com', 'Gregory', 'Robinson', 192397, '2346 Blind Bay Road, Armstrong, Ontario'),
+    (1206, 'm.johnson@email.com', 'Maggie', 'Johnson', 029471, '2425 Rue SainT-Edouard, Trois Rivieres, Quebec'),
+    (1207, 'p.towe@email.com', 'Pete', 'Towe', 787271, '868 Island Hwy, Campbell River, British Columbia'),
+    (1208, 'g.brand@email.com', 'Glenn', 'Brand', 296083, '1461 Beaver Creek, Thornhill, Ontario'),
+    (1209, 'a.jackson@email.com', 'Alvin', 'Jackson', 572854, '3492 Olen Thomas Drive, Whichita Falls, Texas'),
+    (1210, 'r.shell@email.com', 'Roland', 'Shell', 674823, '1612 Rue Levy, Montreal, Quebec'),
+    (1211, 'b.dye@email.com', 'Barbara', 'Dye', 823421, '2154 Shaughnessy St, Port Coquitlam, British Columbia'),
+    (1212, 'r.pearson@email.com', 'Ralph', 'Pearson', 548204, '562 th Avenue, Rae Lakes, Northwest Territories'),
+    (1213, 'l.jacobs@email.com', 'Linda', 'Jacobs', 432853, '4851 Blanshard, Victoria, British Columbia'),
+    (1214, 'j.schulte@email.com', 'Jessica', 'Schulte', 932850, '3617 rue Saint-Charles, Longueuil, Quebec'),
+    (1215, 'a.ray@email.com', 'Anne', 'Ray', 324592, '2704 Lauzon Parkway, Windsor, Ontario'),
+    (1216, 's.large@email.com', 'Samantha', 'Large', 234872, '437 Rd Avenue, Lethbridge, Alberta'),
+    (1217, 'm.baldwin@email.com', 'Marsha', 'Baldwin', 987332, '5019 rue Eglises Est, Campbell, Quebec'),
+    (1218, 'm.crouse@email.com', 'Mary', 'Crouse', 345297, '3696 Water Street, Kitchener, Ontario'),
+    (1219, 'l.shipley@email.com', 'Lydia', 'Shipley', 364989, '839 Blanshard, Victoria, British Columbia'), 
+    (1220, 'e.grover@email.com', 'Elizabeth', 'Grover', 364724, '4745 th Avenue, Craigmyle, Alberta'),
+    (1221, 'j.crump@email.com', 'Julie', 'Crump', 874391, '835 Bridgeport Rd, Hamilton, Ontario'),
+    (1222, 'w.johnson@email.com', 'William', 'Johnson', 975392, '422 Ross Terrasse, Sackville, New Brunswick'),
+    (1223, 'j.rubinstein@email.com', 'Joseph', 'Rubinstein', 758209, '2898 Churchill Plaza, Sault Ste Marie, Ontario'),
+    (1224, 'r.stumpf@email.com', 'Ronald', 'Stummpf', 648296, '4573 Cecil Street, Chicago, Illinois'),
+    (1225, 'j.cahill@email.com', 'Joyce', 'Cahill', 582309, '403 Rose Street, Regina, Saskatchewan');
+
+# 3rd Quarter products sold table
+INSERT INTO products_sold (transaction_number, product_id, user_id_purchased, sold_price, date_sold)
+VALUES
+    (781, 08, 1211, 55, '2020-07-15'),
+    (782, 03, 1221, 30, '2020-07-18'),
+    (783, 05, 1220, 35, '2020-07-24'),
+    (784, 04, 1209, 30, '2020-07-25'),
+    (785, 09, 1224, 395, '2020-07-27'),
+    (786, 09, 1203, 395, '2020-07-27'),
+    (787, 07, 1210, 55, '2020-07-29'),
+    (788, 01, 1213, 30, '2020-07-30'),
+    (789, 06, 1204, 35, '2020-08-01'),
+    (790, 02, 1205, 30, '2020-08-01'),
+    (791, 01, 1221, 25, '2020-08-03'),
+    (792, 01, 1207, 25, '2020-08-04'),
+    (793, 03, 1210, 30, '2020-08-05'),
+    (794, 09, 1209, 395, '2020-08-08'),
+    (795, 05, 1215, 35, '2020-08-10'),
+    (796, 01, 1203, 25, '2020-08-10'),
+    (797, 09, 1214, 395, '2020-08-12'),
+    (798, 05, 1208, 35, '2020-08-14'),
+    (799, 01, 1204, 25, '2020-08-15'),
+    (800, 04, 1225, 30, '2020-08-18'),
+    (801, 02, 1214, 30, '2020-08-20'),
+    (802, 05, 1205, 35, '2020-08-21'),
+    (803, 07, 1210, 55, '2020-08-23'),
+    (804, 09, 1222, 395, '2020-08-26'),
+    (805, 05, 1215, 35, '2020-08-28'),
+    (806, 07, 1205, 55, '2020-08-30'),
+    (807, 03, 1225, 30, '2020-08-31'),
+    (808, 09, 1217, 395, '2020-09-02'),
+    (809, 01, 1205, 25, '2020-09-03'),
+    (810, 08, 1211, 55, '2020-09-03'),
+    (811, 04, 1219, 30, '2020-09-07'),
+    (812, 01, 1201, 25, '2020-09-09'),
+    (813, 04, 1212, 30, '2020-09-10'),
+    (814, 05, 1210, 35, '2020-09-12'),
+    (815, 09, 1208, 395, '2020-09-14'),
+    (816, 06, 1202, 35, '2020-09-18'),
+    (817, 01, 1211, 25, '2020-09-19'),
+    (818, 03, 1215, 30, '2020-09-21'),
+    (819, 09, 1207, 395, '2020-09-22'),
+    (820, 07, 1209, 55, '2020-09-24'),
+    (821, 08, 1223, 55, '2020-09-26'),
+    (822, 01, 1224, 25, '2020-09-26'),
+    (823, 09, 1202, 395, '2020-09-29'),
+    (824, 07, 1218, 55, '2020-09-30');
+
+# Noticing that one of the Pawn product prices was sold for 30 instead of 25...
+UPDATE products_sold
+SET sold_price = 25
+WHERE transaction_number = 788;                  
+
+# Products that have been purchased and shipped out
+INSERT INTO items_shipped (tracking_number, customer_id, type_of_shipping)
+VALUES
+    ('iVhXWhIn2W', 1211, 'Domestic'),
+    ('c3rVSGgjLq', 1221, 'Domestic'),
+    ('i8y66WckNZ', 1220, 'Domestic'),
+    ('IylJ75ec7S', 1209, 'International'),
+    ('ZB7LxzBvuZ', 1224, 'International'), 
+    ('S06IBQW6VN', 1203, 'International'), 
+    ('Q0REuArBry', 1210, 'Domestic'),
+    ('dsNtgKgahX', 1213, 'Domestic'),
+    ('7jPuMOPgQv', 1204, 'Domestic'),
+    ('JkHz1e6jf0', 1205, 'Domestic'), 
+    ('iFMxxsOEyB', 1221, 'Domestic'),
+    ('Xh4J06uKxL', 1207, 'Domestic'),
+    ('rhzFrLt45d', 1210, 'Domestic'),
+    ('a04iwZSnRR', 1209, 'International'),
+    ('ZnCd4Hqu67', 1215, 'Domestic'),
+    ('ewqlxZ2mBR', 1203, 'International'),
+    ('VtL25iDr3k', 1214, 'Domestic'),
+    ('6vYwRM7Qrz', 1208, 'Domestic'),
+    ('ZsH2IYXkJM', 1204, 'Domestic'),
+    ('Jy8Ptve5Pq', 1225, 'Domestic'),
+    ('rIRxYyd5m1', 1214, 'Domestic'),
+    ('ZKLCZNjeNI', 1205, 'Domestic'),
+    ('HV5I7qiZ1x', 1210, 'Domestic'),
+    ('QNsXcZb3Ho', 1222, 'Domestic'),
+    ('5UpijtzNx0', 1215, 'Domestic'),
+    ('Sfadx2rrRC', 1205, 'Domestic'),
+    ('VuayTrsom7', 1225, 'Domestic'),
+    ('vCalsHHBuC', 1217, 'Domestic'),
+    ('h4TcCl07fz', 1205, 'Domestic'),
+    ('Gaa0pODxoT', 1211, 'Domestic'),
+    ('LLGLq0TOyz', 1219, 'Domestic'),
+    ('WWmoYvbUG1', 1201, 'Domestic'),
+    ('5RQqM7jALt', 1212, 'Domestic'),
+    ('6aTq84pLRt', 1210, 'Domestic'),
+    ('TKpZEVe8Vp', 1208, 'Domestic'),
+    ('DKX72g4lGS', 1202, 'Domestic'),
+    ('HowWXgmbk0', 1211, 'Domestic'),
+    ('RGjTzCVN8W', 1215, 'Domestic'),
+    ('OIOSMXTw9f', 1207, 'Domestic'),
+    ('9oPI2vj6Wu', 1209, 'International'),
+    ('8xpmosw06o', 1223, 'Domestic'),
+    ('Aj1TbnnreE', 1224, 'International'), 
+    ('cI9n7PCMAO', 1202, 'Domestic'),
+    ('tEq9haYj6Y', 1218, 'Domestic');
+
+# Employees that work for the company
+INSERT INTO employees (emp_id, first_name, last_name, sex, salary)
+VALUES
+    (100, 'David', 'Decker', 'M', 48000),
+    (101, 'Kayla', 'Beck', 'F', 56000),
+    (102, 'Sallie', 'Fleming', 'F', 23000);
+
+# Noticing the employees, you decide to give Sallie a raise who is currently working part time. 
+UPDATE employees
+SET salary = 25000
+WHERE emp_id = 102;
+
+# Find all customers
+SELECT *
+FROM customers_information;
+
+# Find all shipped items out, ordered by customer_id
+SELECT *
+FROM items_shipped
+ORDER BY customer_id ASC;
+
+# Find the products sold, order by and customer
+SELECT *
+FROM products_sold
+ORDER BY product_id, user_id_purchased;
+
+# Find only 5 customers
+SELECT *
+FROM customers_information
+LIMIT 5;
+
+# What are the products that the company sells
+SELECT product
+FROM inventory;
+
+# Find the unique costs for making the products
+SELECT DISTINCT cost
+FROM inventory;
+
+# Now what is the unique selling prices for the products, in ascending order
+SELECT DISTINCT sold_price
+FROM products_sold
+ORDER BY sold_price ASC;
+
+# How many times was a product sold in the 3rd quarter table 
+SELECT COUNT(transaction_number) 
+FROM products_sold;
+
+# Find out how many sales happened it August and September
+SELECT COUNT(transaction_number) AS 'Sales in Aug & Sept'
+FROM products_sold
+WHERE date_sold >= '2020-08-01';
+
+# Find the products that cost less than $40 to manufacture and have more than 100 items in stock
+SELECT product
+FROM inventory
+WHERE cost < 40 AND remaining_amount > 100;
+
+# Find the average amount of inventory for all the products
+SELECT AVG(remaining_amount)
+FROM inventory;
+
+# How many products are there that cost the same to manufacture
+SELECT COUNT(cost), cost
+FROM inventory
+GROUP BY cost;
+
+# How many of the customers live in Ontario
+SELECT *
+FROM customers_information
+WHERE shipping_address LIKE '%Ontario';
+
+# How many of the customers have 'Rue' in there address
+SELECT *
+FROM customers_information
+WHERE shipping_address LIKE '%rue%';
+
+# Did any sales happen on a '15th' day of the month
+SELECT * 
+FROM products_sold
+WHERE date_sold LIKE '____-__-15';
+
+# Gather a list of the bank numbers and all the tracking numbers
+SELECT bank_number AS 'Bank and Transaction Numbers'
+FROM customers_information
+UNION
+SELECT tracking_number
+FROM items_shipped;
+
+# Gather a list of first names from the customers and your employees with there respected id
+SELECT first_name AS 'All First Names', employees.emp_id AS 'ID'
+FROM employees
+UNION
+SELECT first_name, customers_information.user_id
+FROM customers_information;
+
+# Find all the customers that made purchases in the 3rd Quarter
+SELECT customers_information.user_id, customers_information.first_name, products_sold.transaction_number
+FROM customers_information
+JOIN products_sold
+ON customers_information.user_id = products_sold.user_id_purchased;
+
+# Compare the inventory of stock to the sold prices
+SELECT DISTINCT inventory.product_id, inventory.product, inventory.cost, products_sold.sold_price
+FROM inventory
+LEFT JOIN products_sold
+ON inventory.product_id = products_sold.product_id;
+
+# Find the names of the customers that needed International shipping
+SELECT customers_information.first_name, customers_information.last_name
+FROM customers_information
+WHERE customers_information.user_id IN (
+    SELECT items_shipped.customer_id
+    FROM items_shipped
+    WHERE items_shipped.type_of_shipping = 'International'
+);
