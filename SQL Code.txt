@@ -290,7 +290,7 @@ FROM inventory
 LEFT JOIN products_sold
 ON inventory.product_id = products_sold.product_id;
 
-# Find the names of the customers that needed International shipping
+# Find the names of the customers that needed International shipping using a nested query.
 SELECT customers_information.first_name, customers_information.last_name
 FROM customers_information
 WHERE customers_information.user_id IN (
